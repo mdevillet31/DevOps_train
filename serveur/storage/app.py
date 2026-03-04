@@ -35,6 +35,7 @@ def save():
     )
 
     chunks = splitter.split_documents(docs)
+    
 
     QdrantVectorStore.from_documents(
         chunks,
