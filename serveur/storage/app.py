@@ -29,12 +29,13 @@ def save():
     cur.execute("INSERT INTO messages (content) VALUES (%s)", (content,))
     conn.commit()
 
-    docs = [Document(content)]
+    docs = [Document(page_content=content)]
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000, chunk_overlap=100, separators=["\n\n", "\n", ".", " "]
     )
 
     chunks = splitter.split_documents(docs)
+    
 
     QdrantVectorStore.from_documents(
         chunks,

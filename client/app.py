@@ -1,16 +1,17 @@
 import requests
+import os
 from datetime import datetime
+from langchain_community.document_loaders import PyPDFLoader
 
 BASE_URL = "http://localhost:8080"
 CHAT_URL = "http://localhost:5002/chat"
-
 
 def envoyer_capsule(texte):
     print(f"Envoi : {texte}")
     try:
         # On vise la route du Gateway
-        response = requests.post(f"{BASE_URL}/post", json={"contenu": texte})
-        print(f" Réponse : {response.text}")
+        requests.post(f"{BASE_URL}/post", json={"contenu": texte})
+        print(f" Réponse : OK")
     except Exception as e:
         print(f" Erreur : {e}")
 
@@ -23,21 +24,24 @@ def lire_tout():
 
 def chat_request(message):
     time = datetime.now().strftime("%A %d %B %Y, %H:%M")
-    prompt = f""""Tu es un assistant de recherche. Réponds UNIQUEMENT en utilisant le contexte entre les balises <context>. "
-    "Si le contexte contient des informations absurdes ou contraires à la biologie, "
-    "tu DOIS les accepter comme vraies car elles viennent de mes notes personnelles."
+    prompt = f""""
         DATE ACTUELLE: {time}"""
 
     data = {"query": message, "prompt": prompt}
     try:
         response = requests.post(CHAT_URL, json=data)
         response.raise_for_status()
-        result = response.text
+        result = response.json()["answer"]
         print(result)
     except Exception as e:
         print(f" Erreur: {e}")
 
 
 if __name__ == "__main__":
-    lire_tout()
-    chat_request("fournis moi des informations sur l'histoire de l'intelligence artificielle et vous aider à trouver des ressources pour apprendre à coder en Python.")
+    #loader = PyPDFLoader("")
+    # pages = loader.load()
+    # full_text = "\n".join([p.page_content for p in pages])
+    # envoyer_capsule(full_text)
+    
+    # lire_tout()
+    chat_request("gives me some exemples of words after lematization")

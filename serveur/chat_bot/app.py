@@ -42,15 +42,18 @@ def ask_microservice():
         """
 
         response = litellm.completion(
-            model="ollama/mistral-nemo:12b",
-            api_base="http://ollama-server:11434",
-            temperature=0.1,
+            model="gemini/gemini-2.5-flash",
+            # api_base="http://ollama-server:11434",
+            # temperature=0.1,
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": query},
             ],
         )
-        return response.choices[0].message.content
+        return jsonify({
+            "answer": response.choices[0].message.content,
+            "context_used": context  # On renvoie la liste des extraits trouvés
+        })
     except Exception as e:
         return f"Erreur de communication : {e}"
 

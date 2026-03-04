@@ -16,7 +16,7 @@ def home():
 def post_message():
     user_data = request.get_json()
     response = requests.post(
-        f"{SAVE_URL}/save", json={"content": user_data["contenu"]}, timeout=5
+        f"{SAVE_URL}/save", json={"content": user_data["contenu"]}, timeout=60
     )
     return jsonify({"gateway_status": "Transmis", "storage_response": response.text})
 
@@ -25,14 +25,14 @@ def post_message():
 def execute_SQL():
     user_data = request.get_json()
     response = requests.post(
-        f"{SAVE_URL}/exec", json={"content": user_data["query"]}, timeout=5
+        f"{SAVE_URL}/exec", json={"content": user_data["query"]}, timeout=60
     )
     return jsonify({"gateway_status": "Transmis", "storage_response": response.text})
 
 
 @app.route("/messages", methods=["GET"])
 def get_messages():
-    response = requests.get("http://storage:5001/messages", timeout=5)
+    response = requests.get("http://storage:5001/messages", timeout=60)
     return response.text
 
 
