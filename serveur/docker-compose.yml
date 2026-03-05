@@ -18,8 +18,6 @@ services:
     image: mdevillet31/storage
     dns:
       - 8.8.8.8
-    depends_on:
-      - db
     networks:
       - ton_reseau_devops
 
@@ -56,27 +54,11 @@ services:
     build: ./chat_bot
     dns:
       - 8.8.8.8
-    ports:
-      - "5002:5002"
     environment:
       - OLLAMA_HOST=http://ollama-server:11434
     depends_on:
       - qdrant-server
       - ollama-server
-      - db
-    networks:
-      - ton_reseau_devops
-
-  # Service 6 : La base de données SQL
-  db:
-    image: postgres:15-alpine
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password123
-      POSTGRES_DB: capsule_db
-    volumes:
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - postgres_data:/var/lib/postgresql/data
     networks:
       - ton_reseau_devops
 

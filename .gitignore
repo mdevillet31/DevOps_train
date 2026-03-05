@@ -1,4 +1,3 @@
-serveur/chroma_db/
 .cache/pre-commit/
-serveur/postgres_data/
 .venv/
+documents/

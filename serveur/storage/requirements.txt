@@ -6,3 +6,4 @@ langchain-qdrant
 qdrant-client
 langchain-ollama
 litellm
+nest_asyncio
